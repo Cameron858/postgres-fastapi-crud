@@ -217,24 +217,3 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-
-# Data
-data/*
-!data/.gitkeep
-
-# Databases
-db/*
-!db/.gitkeep
-
-# draw.io backup files
-*.bkp
-
-# Credentials
-credentials/*
-!credentials/.gitkeep
-
-# Google ADK (Agent Development Kit)
-# Session state, local SQLite DBs, and runtime metadata
-.adk/
-*.db
-sessions.db
