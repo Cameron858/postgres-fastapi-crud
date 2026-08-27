@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS list (
+    id SERIAL PRIMARY KEY,
+    content VARCHAR NOT NULL
+)
