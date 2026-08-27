@@ -1,9 +1,14 @@
 services:
-  db:
+  postgres:
     image: postgres
     container_name: example-postgres
     env_file:
-      - db/.env
+      - ./db/.env
     ports:
       - "5432:5432"
-   
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./db/init:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:
