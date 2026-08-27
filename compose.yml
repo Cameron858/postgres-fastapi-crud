@@ -1,5 +1,5 @@
 services:
-  postgres:
+  db:
     image: postgres
     container_name: example-postgres
     env_file:
@@ -9,6 +9,15 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
       - ./db/init:/docker-entrypoint-initdb.d
+
+  api:
+    build:
+      context: ./api
+    container_name: example-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
 
 volumes:
   postgres_data: 
