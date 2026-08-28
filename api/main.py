@@ -2,6 +2,7 @@ from typing import Annotated
 
 import psycopg2.extras
 from api_lib.database import get_conn
+from api_lib.types import Item
 from fastapi import Depends, FastAPI
 from psycopg2.extensions import connection
 
@@ -14,7 +15,7 @@ def status():
     return {"status": "ok"}
 
 
-@app.get("/items")
+@app.get("/items/", response_model=list[Item])
 def items(conn: Annotated[connection, Depends(get_conn)]):
     """Return all items from the database."""
     with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
