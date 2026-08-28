@@ -1,6 +1,7 @@
 from dash import Dash, html
 
 app = Dash()
+server = app.server
 
 app.layout = [
     html.H1(children="Title of Dash App", style={"textAlign": "center"}),
