@@ -12,7 +12,7 @@ def status():
 
 
 @app.get("/items")
-def items(conn=Depends(get_conn)):
+def items(conn=Depends(get_conn)):  # noqa: B008
     """Return all items from the database."""
     with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
         cur.execute("SELECT * FROM list")
