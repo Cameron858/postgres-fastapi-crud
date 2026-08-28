@@ -7,4 +7,4 @@ ENV UV_NO_DEV=1
 WORKDIR /app
 RUN uv sync --locked
 
-CMD ["uv", "run", "python", "main.py"]
+CMD ["uv", "run", "gunicorn", "--bind", "0.0.0.0:8050", "main:server"]
