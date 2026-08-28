@@ -3,7 +3,7 @@ from typing import Annotated
 import psycopg2.extras
 from api_lib.database import get_conn
 from api_lib.types import BaseItem, ItemResponse
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 from psycopg2.extensions import connection
 
 app = FastAPI()
@@ -42,3 +42,25 @@ def create_item(
         conn.commit()
 
     return created_item
+
+
+@app.delete("/items/{id}", response_model=ItemResponse)
+def delete_item(id: int, conn: Annotated[connection, Depends(get_conn)]):
+    """Delete an item by id."""
+    with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+        cur.execute(
+            "DELETE FROM list WHERE id = %s RETURNING id, content",
+            (id,),
+        )
+
+        deleted_item = dict(cur.fetchone())  # type: ignore
+
+        if deleted_item is None:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Item {id} not found",
+            )
+
+        conn.commit()
+
+    return deleted_item
