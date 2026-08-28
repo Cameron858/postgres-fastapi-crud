@@ -2,7 +2,7 @@ from typing import Annotated
 
 import psycopg2.extras
 from api_lib.database import get_conn
-from api_lib.types import BaseItem, ItemResponse
+from api_lib.types import BaseItem, ItemResponse, ItemUpdate
 from fastapi import Depends, FastAPI, HTTPException
 from psycopg2.extensions import connection
 
@@ -66,7 +66,7 @@ def delete_item(id: int, conn: Annotated[connection, Depends(get_conn)]):
     return deleted_item
 
 
-@app.put("/items/{id}")
+@app.put("/items/{id}", response_model=ItemUpdate)
 def update_item(
     id: int, new_content: str, conn: Annotated[connection, Depends(get_conn)]
 ):
