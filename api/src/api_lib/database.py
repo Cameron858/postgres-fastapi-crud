@@ -1,7 +1,8 @@
 import psycopg2
+from psycopg2.extensions import connection
 
 
-def create_connection():
+def create_connection() -> connection:
     """Create a PostgreSQL database connection."""
     return psycopg2.connect(
         user="postgres",
