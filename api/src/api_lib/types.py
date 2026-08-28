@@ -1,6 +1,9 @@
 from pydantic import BaseModel
 
 
-class Item(BaseModel):
-    id: int
+class BaseItem(BaseModel):
     content: str
+
+
+class ItemResponse(BaseItem):
+    id: int
