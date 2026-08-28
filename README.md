@@ -32,4 +32,4 @@ See the [API README](api/README.md) for endpoints, documentation, and request ex
 docker compose down
 ```
 
-See the [database README](db/README.md) for PostgreSQL configuration and initialization details.
+See the [database README](db/README.md) for PostgreSQL configuration and initialisation details.
