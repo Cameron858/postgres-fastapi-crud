@@ -6,6 +6,16 @@ A small CRUD API backed by PostgreSQL and run with Docker Compose.
 
 - Docker Desktop with Docker Compose
 
+## Configuration
+
+Copy the example environment file to the project root as `.env`, then set the PostgreSQL values:
+
+```bash
+cp example.env .env
+```
+
+Edit `.env` and set `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`, `POSTGRES_HOST`, and `POSTGRES_PORT`. Docker Compose passes these shared variables to the database and API services.
+
 ## Run the application
 
 Build and start the services in the background:
