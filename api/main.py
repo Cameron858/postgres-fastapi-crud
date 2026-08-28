@@ -20,6 +20,6 @@ def items(conn: Annotated[connection, Depends(get_conn)]):
     with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
         cur.execute("SELECT * FROM list")
 
-        items = cur.fetchall()
+        items = [dict(row) for row in cur.fetchall()]
 
     return items
