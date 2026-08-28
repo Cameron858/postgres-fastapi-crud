@@ -1,0 +1,6 @@
+services:
+  api:
+    volumes:
+      - ./api:/app
+      - /app/.venv
+    command: ["uv", "run", "fastapi", "dev", "main.py", "--host", "0.0.0.0", "--port", "8080"]
