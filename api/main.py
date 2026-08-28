@@ -64,3 +64,35 @@ def delete_item(id: int, conn: Annotated[connection, Depends(get_conn)]):
         conn.commit()
 
     return deleted_item
+
+
+@app.put("/items/{id}")
+def update_item(
+    id: int, new_content: str, conn: Annotated[connection, Depends(get_conn)]
+):
+    """Update an items content."""
+    with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+        cur.execute(
+            """
+            UPDATE list 
+            SET content = %s 
+            WHERE id = %s 
+            RETURNING
+                id,
+                old.content AS old_content,
+                new.content AS new_content
+            """,
+            (new_content, id),
+        )
+
+        update = dict(cur.fetchone())  # type: ignore
+
+        if update is None:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Item {id} not found",
+            )
+
+        conn.commit()
+
+    return update
