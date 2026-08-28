@@ -32,8 +32,4 @@ See the [API README](api/README.md) for endpoints, documentation, and request ex
 docker compose down
 ```
 
-To remove the PostgreSQL data volume as well:
-
-```bash
-docker compose down -v
-```
+See the [database README](db/README.md) for PostgreSQL configuration and initialization details.
