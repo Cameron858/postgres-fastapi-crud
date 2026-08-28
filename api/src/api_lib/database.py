@@ -1,14 +1,17 @@
+import os
+
 import psycopg2
 from psycopg2.extensions import connection
 
 
 def create_connection() -> connection:
-    """Create a PostgreSQL database connection."""
+    """Create a PostgreSQL database connection using environment variables."""
     return psycopg2.connect(
-        user="postgres",
-        host="db",
-        port="5432",
-        password="mysecretpassword",
+        host=os.getenv("POSTGRES_HOST", "db"),
+        port=os.getenv("POSTGRES_PORT", "5432"),
+        dbname=os.getenv("POSTGRES_DB", "postgres"),
+        user=os.getenv("POSTGRES_USER", "postgres"),
+        password=os.environ["POSTGRES_PASSWORD"],
     )
 
 
