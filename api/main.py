@@ -31,6 +31,7 @@ def create_item(
     item: BaseItem,
     conn: Annotated[connection, Depends(get_conn)],
 ):
+    """Create a new item."""
     with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
         cur.execute(
             "INSERT INTO list (content) VALUES (%s) RETURNING id, content",
