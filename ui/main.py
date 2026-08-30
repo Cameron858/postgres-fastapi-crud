@@ -1,5 +1,5 @@
 import requests
-from dash import MATCH, Dash, Input, Output, State, ctx, dcc, html
+from dash import MATCH, Dash, Input, State, ctx, dcc, html
 
 app = Dash()
 server = app.server
@@ -38,17 +38,15 @@ app.layout = [
         style={"display": "flex"},
     ),
     get_tasks(),
-    html.Div(id="container-button-basic", children="Enter a value and press submit"),
 ]
 
 
 @app.callback(
-    Output("container-button-basic", "children"),
     Input("create-btn", "n_clicks"),
     State("new-task-input", "value"),
     prevent_initial_call=True,
 )
-def update_output(n_clicks, value):
+def create_task(n_clicks, value):
     requests.post("http://api:8080/items/", json={"content": value})
 
 
