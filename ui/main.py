@@ -1,16 +1,24 @@
 import requests
-from dash import Dash, Input, Output, State, dcc, html
+from dash import MATCH, Dash, Input, Output, State, ctx, dcc, html
 
 app = Dash()
 server = app.server
 
 
 def create_task_element(id, content):
-    return html.Li(html.Div(f"{content}"), id=f"task_{id}")
+    return html.Li(
+        html.Div(
+            [
+                f"{content}",
+                dcc.Button("Delete", id={"type": "delete-task-btn", "index": id}),
+            ]
+        ),
+        id=f"task_{id}",
+    )
 
 
 def get_tasks():
-    return html.Ol(
+    return html.Ul(
         [
             create_task_element(task["id"], task["content"])
             for task in sorted(
@@ -42,6 +50,14 @@ app.layout = [
 )
 def update_output(n_clicks, value):
     requests.post("http://api:8080/items/", json={"content": value})
+
+
+@app.callback(
+    Input({"type": "delete-task-btn", "index": MATCH}, "n_clicks"),
+    prevent_initial_call=True,
+)
+def delete_task(_):
+    requests.delete(f"http://api:8080/items/{ctx.triggered_id['index']}")
 
 
 if __name__ == "__main__":
