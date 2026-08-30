@@ -28,17 +28,37 @@ def get_tasks():
     )
 
 
-app.layout = [
-    html.H1("Todo"),
-    html.Div(
-        [
-            dcc.Input(id="new-task-input", type="text", placeholder="", debounce=True),
-            dcc.Button("Create", id="create-btn", n_clicks=0),
-        ],
-        style={"display": "flex"},
-    ),
-    html.Div(id="task-list", children=get_tasks()),
-]
+app.layout = html.Div(
+    [
+        html.H1("Todo"),
+        html.Div(
+            [
+                dcc.Input(
+                    id="new-task-input",
+                    type="text",
+                    placeholder="",
+                    debounce=True,
+                    style={"flex": "1", "minWidth": 0},
+                ),
+                dcc.Button("Create", id="create-btn", n_clicks=0),
+            ],
+            style={
+                "display": "flex",
+                "gap": "10px",
+                "alignItems": "center",
+                "width": "100%",
+            },
+        ),
+        html.Div(id="task-list", children=get_tasks()),
+    ],
+    style={
+        "maxWidth": "700px",
+        "margin": "0 auto",
+        "padding": "20px",
+        "boxSizing": "border-box",
+        "width": "100%",
+    },
+)
 
 
 @app.callback(
