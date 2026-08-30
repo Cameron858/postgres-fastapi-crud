@@ -10,8 +10,12 @@ def create_task_element(id, content):
         html.Div(
             [
                 f"{content}",
-                dcc.Button("Delete", id={"type": "delete-task-btn", "index": id}),
-            ]
+                dcc.Button(
+                    "Delete",
+                    id={"type": "delete-task-btn", "index": id},
+                    style={"margin-left": "1rem"},
+                ),
+            ],
         ),
         id=f"task_{id}",
     )
