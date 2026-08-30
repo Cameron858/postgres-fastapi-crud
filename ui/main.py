@@ -1,5 +1,5 @@
 import requests
-from dash import MATCH, Dash, Input, State, ctx, dcc, html
+from dash import MATCH, Dash, Input, Output, State, ctx, dcc, html, no_update
 
 app = Dash()
 server = app.server
@@ -37,25 +37,39 @@ app.layout = [
         ],
         style={"display": "flex"},
     ),
-    get_tasks(),
+    html.Div(id="task-list", children=get_tasks()),
 ]
 
 
 @app.callback(
+    Output("task-list", "children", allow_duplicate=True),
     Input("create-btn", "n_clicks"),
     State("new-task-input", "value"),
     prevent_initial_call=True,
 )
 def create_task(n_clicks, value):
-    requests.post("http://api:8080/items/", json={"content": value})
+
+    if n_clicks < 1:
+        return no_update
+
+    if value and value.strip():
+        requests.post("http://api:8080/items/", json={"content": value.strip()})
+
+    return get_tasks()
 
 
 @app.callback(
+    Output("task-list", "children", allow_duplicate=True),
     Input({"type": "delete-task-btn", "index": MATCH}, "n_clicks"),
     prevent_initial_call=True,
 )
-def delete_task(_):
+def delete_task(n_clicks):
+
+    if n_clicks < 1:
+        return no_update
+
     requests.delete(f"http://api:8080/items/{ctx.triggered_id['index']}")
+    return get_tasks()
 
 
 if __name__ == "__main__":
